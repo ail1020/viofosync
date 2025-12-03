@@ -43,6 +43,9 @@ services:
       # Sets the timeout in seconds for connecting to the dashcam.
       TIMEOUT: 10.0
 
+      # Only sync locked video files
+      LOCKED_ONLY: 0
+
       # Set to a number greater than zero to increase logging verbosity.
       VERBOSE: 0
 
