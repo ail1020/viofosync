@@ -299,6 +299,10 @@ def sync(address, destination, grouping, download_priority, recording_filter, ar
         dashcam_recordings = [r for r in dashcam_recordings if any(f in r.filename for f in recording_filter)]
         logger.info(f"Filtered recordings count: {len(dashcam_recordings)}")
 
+    if args.locked_only:
+        dashcam_recordings = [r for r in dashcam_recordings if (r.attr & 0x04)]
+        logger.info(f"Locked-only mode: {len(dashcam_recordings)} locked recordings found.")
+
     for recording in dashcam_recordings:
         if cutoff_date and recording.datetime.date() < cutoff_date:
             logger.debug(f"Skipping recording due to cutoff date: {recording.filename}")
@@ -535,6 +539,7 @@ def parse_args():
     parser.add_argument("-p", "--priority", choices=["date", "rdate"], default="date",
                         help="Download priority: 'date' for oldest first, 'rdate' for newest first")
     parser.add_argument("-f", "--filter", nargs="+", help="Filter recordings by filename pattern")
+    parser.add_argument("-L", "--locked-only", action="store_true", help="Only sync locked video files")
     parser.add_argument("-u", "--max-used-disk", metavar="DISK_USAGE_PERCENT", default=90,
                         type=int, choices=range(5, 99),
                         help="Stops downloading recordings if disk is over DISK_USAGE_PERCENT used; defaults to 90")
