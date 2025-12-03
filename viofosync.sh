@@ -15,6 +15,9 @@ disk_usage=${MAX_USED_DISK:+--max-used-disk $MAX_USED_DISK}
 # timeout set if TIMEOUT set
 timeout=${TIMEOUT:+--timeout $TIMEOUT}
 
+# locked-only if LOCKED_ONLY set
+locked-only="${LOCKED_ONLY:+--locked-only}"
+
 # as many verbose options as the value in VERBOSE
 verbose=${VERBOSE:+$(if [[ $VERBOSE -gt 0 ]]; then for i in $(seq 1 $VERBOSE); do echo --verbose; done; fi)}
 
@@ -29,5 +32,5 @@ dry_run="${DRY_RUN:+--dry-run}"
 
 gps_extract="${GPS_EXTRACT:+--gps-extract}"
 
-/viofosync.py ${ADDRESS} --destination /recordings ${keep} ${grouping} ${priority} ${disk_usage} ${timeout} ${verbose} ${gps_extract} \
-    ${quiet} ${cron} ${dry_run}
+/viofosync.py ${ADDRESS} --destination /recordings ${keep} ${grouping} ${priority} ${disk_usage} ${timeout} ${locked-only} ${verbose} \
+    ${gps_extract} ${quiet} ${cron} ${dry_run}
